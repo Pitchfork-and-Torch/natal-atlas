@@ -175,7 +175,8 @@ export function anglesFrom(date, lat, lonEast) {
   const eps = e_tilt(time).tobl * DEG;
   const ramcR = ramc * DEG;
   const latR = lat * DEG;
-  const mc = norm(Math.atan2(Math.sin(ramcR) * Math.cos(eps), Math.cos(ramcR)) * RAD);
+  // Ecliptic point culminating on the meridian: tan(MC) = tan(RAMC) / cos(eps).
+  const mc = norm(Math.atan2(Math.sin(ramcR), Math.cos(ramcR) * Math.cos(eps)) * RAD);
   const num = Math.cos(ramcR);
   const den = -(Math.sin(ramcR) * Math.cos(eps) + Math.tan(latR) * Math.sin(eps));
   const asc = norm(Math.atan2(num, den) * RAD);
