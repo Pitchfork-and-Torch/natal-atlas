@@ -1,0 +1,36 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self'; script-src 'self' https://hits.jonbailey.xyz; connect-src 'self' https://hits.jonbailey.xyz; font-src 'self'
+  Cache-Control: public, max-age=0, must-revalidate
+
+/og.jpg
+  Cache-Control: public, max-age=86400
+  Content-Type: image/jpeg
+
+/og.png
+  Cache-Control: public, max-age=86400
+
+/infographic.jpg
+  Cache-Control: public, max-age=86400
+  Content-Type: image/jpeg
+
+/llms.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/plain; charset=utf-8
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/data/cities.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/json; charset=utf-8
+
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Type: text/javascript; charset=utf-8
