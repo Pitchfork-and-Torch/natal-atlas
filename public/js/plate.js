@@ -47,15 +47,18 @@ export function parseBirthHash(hash) {
 export function chartToHashInput(chart) {
   const b = chart?.meta?.birth || {};
   const [y, m, d] = String(b.date || "").split("-").map(Number);
-  const [hh, mm] = String(b.time || "12:00").split(":").map(Number);
+  const [hhRaw, mmRaw] = String(b.time || "12:00").split(":").map(Number);
   if (![y, m, d].every(Number.isFinite)) return null;
+  // Hour 0 is midnight  -  do not coerce with || 12 (that rewrote 00:xx as noon).
+  const hour = Number.isFinite(hhRaw) ? hhRaw : 12;
+  const minute = Number.isFinite(mmRaw) ? mmRaw : 0;
   return {
     name: chart.meta.subject,
     year: y,
     month: m,
     day: d,
-    hour: hh || 12,
-    minute: mm || 0,
+    hour,
+    minute,
     timeUnknown: Boolean(chart.meta.timeUnknown),
     lat: b.lat,
     lon: b.lon,
