@@ -81,8 +81,8 @@ export function fmtLon(lon) {
 
 /** Civil time in an IANA zone -> UTC Date, using the browser ICU tz database. */
 export function zonedCivilToUtc(year, month, day, hour, minute, timeZone) {
-  const utcGuess = Date.UTC(year, month - 1, day, hour, minute, 0);
-  if (!timeZone || timeZone === "UTC") return new Date(utcGuess);
+  const target = Date.UTC(year, month - 1, day, hour, minute, 0);
+  if (!timeZone || timeZone === "UTC") return new Date(target);
   const dtf = new Intl.DateTimeFormat("en-US", {
     timeZone,
     hourCycle: "h23",
@@ -106,7 +106,15 @@ export function zonedCivilToUtc(year, month, day, hour, minute, timeZone) {
       Number(parts.second),
     );
   };
-  return new Date(utcGuess - (asUtcMs(utcGuess) - utcGuess));
+  // Iterate the offset. A single pass fails on DST spring/fall days: e.g.
+  // 03:00 America/New_York on spring-forward morning landed an hour late.
+  let guess = target;
+  for (let i = 0; i < 3; i++) {
+    const err = asUtcMs(guess) - target;
+    if (err === 0) break;
+    guess -= err;
+  }
+  return new Date(guess);
 }
 
 export function geoEclipticLon(body, date) {
