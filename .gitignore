@@ -1,0 +1,20 @@
+.local-run/
+.private/
+.wrangler/
+*.log
+.DS_Store
+node_modules/
+scripts/cache/
+
+# Local-only operator scripts and agent prompts (PII / machine paths)
+PROMPT-FABLE.md
+PROMPT-MUSE.md
+scripts/compute_houses.py
+scripts/verify_ephemeris.mjs
+scripts/run_cursor_agent.py
+scripts/start-preview.ps1
+scripts/start_preview.py
+public/infographic.png
+
+.orbit/
+.wrangler/
