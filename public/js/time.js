@@ -261,13 +261,16 @@ export function nextLunarReturnDate(natalMoonLon, fromDate = new Date()) {
 
 export function nextJupiterReturnDate(natalLon, fromDate = new Date()) {
   const get = bodyGetter("jupiter");
-  const start = new Date(fromDate.getTime() + 90 * DAY);
+  // One day clears an already-exact return without the old +90d floor that
+  // walked past near-term returns (including retrograde re-crossings).
+  const start = new Date(fromDate.getTime() + DAY);
   return searchLongitude(get, natalLon, start, 13 * 365.25, 80);
 }
 
 export function nextSaturnReturnDate(natalLon, fromDate = new Date()) {
   const get = bodyGetter("saturn");
-  const start = new Date(fromDate.getTime() + 180 * DAY);
+  // Same near-window rule as Jupiter: +180d used to skip returns under ~6 months out.
+  const start = new Date(fromDate.getTime() + DAY);
   return searchLongitude(get, natalLon, start, 31 * 365.25, 120);
 }
 
