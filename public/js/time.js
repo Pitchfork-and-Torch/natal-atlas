@@ -18,8 +18,14 @@ export const SCALES = [
 ];
 
 export function addMonths(date, n) {
+  // Clamp the day so Jan/Mar/Aug/Oct 31 do not roll into the next month
+  // (JS setUTCMonth overflow: Aug 31 + 18 months became Mar 3 instead of Feb 28).
   const d = new Date(date.getTime());
+  const day = d.getUTCDate();
+  d.setUTCDate(1);
   d.setUTCMonth(d.getUTCMonth() + n);
+  const last = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate();
+  d.setUTCDate(Math.min(day, last));
   return d;
 }
 
