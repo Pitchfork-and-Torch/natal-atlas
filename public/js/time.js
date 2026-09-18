@@ -77,17 +77,19 @@ export function nextSolarReturnDate(natalSunLon, fromDate = new Date(), natalIso
     month = p[1];
     day = p[2];
   }
-  let year = fromDate.getUTCFullYear();
-  let guess = new Date(Date.UTC(year, month - 1, Math.min(day, 28)));
-  if (guess.getTime() < fromDate.getTime() - 2 * DAY) {
-    guess = new Date(Date.UTC(year + 1, month - 1, Math.min(day, 28)));
+  // Narrow birthday windows (SearchSunLongitude drifts over year-long spans).
+  // Accept only hits at/after fromDate so a day-after birthday never returns yesterday.
+  const year = fromDate.getUTCFullYear();
+  for (const y of [year, year + 1, year + 2]) {
+    const guess = new Date(Date.UTC(y, month - 1, Math.min(day, 28)));
+    const start = new Date(guess.getTime() - 6 * DAY);
+    const hit = SearchSunLongitude(natalSunLon, start, 18);
+    if (hit && hit.date && hit.date.getTime() >= fromDate.getTime()) return hit.date;
   }
-  const start = new Date(guess.getTime() - 6 * DAY);
-  const hit = SearchSunLongitude(natalSunLon, start, 18);
-  if (hit && hit.date) return hit.date;
   let best = null;
   let bestErr = 99;
-  for (let i = 0; i < 20; i++) {
+  const start = fromDate;
+  for (let i = 0; i < 380; i++) {
     const t = new Date(start.getTime() + i * DAY);
     let err = geoEclipticLon(Body.Sun, t) - natalSunLon;
     if (err > 180) err -= 360;
