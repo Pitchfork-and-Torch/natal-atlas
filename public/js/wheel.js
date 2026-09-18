@@ -101,6 +101,65 @@ export function declutter(lons, minSep, iterations = 48) {
   return out;
 }
 
+/**
+ * Push values apart on a line so neighbors stay at least minSep apart.
+ * Results are clamped into [lo, hi] (default 0..100). Order is preserved.
+ */
+export function spreadLinear(vals, minSep, lo = 0, hi = 100, iterations = 48) {
+  const n = vals.length;
+  if (n < 2) return vals.slice();
+  const idx = vals.map((_, i) => i).sort((i, j) => vals[i] - vals[j]);
+  const pos = idx.map((i) => vals[i]);
+  for (let it = 0; it < iterations; it++) {
+    let moved = false;
+    for (let k = 0; k < n - 1; k++) {
+      const gap = pos[k + 1] - pos[k];
+      if (gap < minSep - 1e-6) {
+        const push = (minSep - gap) / 2;
+        pos[k] -= push;
+        pos[k + 1] += push;
+        moved = true;
+      }
+    }
+    if (!moved) break;
+  }
+  const span = pos[n - 1] - pos[0];
+  const room = hi - lo;
+  if (span > room + 1e-9) {
+    const mid = (pos[0] + pos[n - 1]) / 2;
+    const targetMid = (lo + hi) / 2;
+    const scale = room / span;
+    for (let k = 0; k < n; k++) pos[k] = targetMid + (pos[k] - mid) * scale;
+  } else {
+    if (pos[0] < lo) {
+      const shift = lo - pos[0];
+      for (let k = 0; k < n; k++) pos[k] += shift;
+    }
+    if (pos[n - 1] > hi) {
+      const shift = pos[n - 1] - hi;
+      for (let k = 0; k < n; k++) pos[k] -= shift;
+    }
+  }
+  const out = new Array(n);
+  idx.forEach((i, k) => {
+    out[i] = clamp(pos[k], lo, hi);
+  });
+  return out;
+}
+
+/**
+ * Wheel pixel size for a given layout box.
+ * chrome (72) covers nav + stage chrome; stackedCopyH is hero copy above the
+ * stage on narrow layouts. Floor is 180 so short phones can shrink below the
+ * old hard 280 that overflowed the viewport.
+ */
+export function fitWheelSize({ wrapW, innerH, stackedCopyH = 0 }) {
+  const chrome = 72;
+  const availH = Math.max(0, innerH - chrome - stackedCopyH);
+  const raw = Math.floor(Math.min(wrapW, availH) * 0.94);
+  return Math.max(180, Math.min(wrapW, raw));
+}
+
 /* ---------------------------------------------------------------- color */
 
 /** OKLCH -> sRGB [0..255]. Same numbers as the CSS tokens in atlas.css. */
@@ -358,9 +417,20 @@ export class NatalWheel {
       size = Math.max(0, Math.floor(Math.min(w, h)));
     } else {
       const wrap = host.parentElement || host;
-      const availW = wrap.clientWidth || host.clientWidth || Math.floor(window.innerWidth * 0.5);
-      const availH = Math.floor(window.innerHeight - 150);
-      size = Math.max(280, Math.floor(Math.min(availW, availH) * 0.94));
+      const wrapW = wrap.clientWidth || host.clientWidth || Math.floor(window.innerWidth * 0.5);
+      const hero = wrap.closest?.(".hero") || null;
+      const copy = hero?.querySelector?.(".hero-copy") || null;
+      let stackedCopyH = 0;
+      if (copy && hero) {
+        const cr = copy.getBoundingClientRect();
+        const hr = hero.getBoundingClientRect();
+        // Narrow layout stacks copy above the stage in the same column.
+        if (cr.width >= hr.width * 0.85) stackedCopyH = Math.ceil(cr.height);
+      }
+      const innerH = hero
+        ? Math.floor(hero.getBoundingClientRect().height)
+        : Math.floor(window.innerHeight);
+      size = fitWheelSize({ wrapW, innerH, stackedCopyH });
       host.style.width = `${size}px`;
       host.style.height = `${size}px`;
       this.canvas.style.width = `${size}px`;
