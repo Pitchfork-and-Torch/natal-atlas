@@ -241,7 +241,9 @@ export function searchLongitude(getLon, target, start, windowDays, samples = 64)
     }
     if (prev != null && prev * err <= 0 && Math.abs(prev) + Math.abs(err) < 180) {
       const hit = bisectZero((d) => wrap180(getLon(d) - target), prevT, t);
-      if (hit.getTime() >= start.getTime() + 2 * DAY) return hit;
+      // Accept the first zero-crossing at/after start. A +2 day floor used to
+      // skip the upcoming lunar return whenever fromDate was under ~2.75 days out.
+      if (hit.getTime() >= start.getTime()) return hit;
     }
     prev = err;
     prevT = t;
@@ -251,7 +253,9 @@ export function searchLongitude(getLon, target, start, windowDays, samples = 64)
 
 export function nextLunarReturnDate(natalMoonLon, fromDate = new Date()) {
   const get = bodyGetter("moon");
-  const start = new Date(fromDate.getTime() + 18 * HOUR);
+  // One hour clears an already-exact return without walking past returns that
+  // land later the same day (the old +18h start skipped those and jumped a month).
+  const start = new Date(fromDate.getTime() + HOUR);
   return searchLongitude(get, natalMoonLon, start, 32, 96);
 }
 
