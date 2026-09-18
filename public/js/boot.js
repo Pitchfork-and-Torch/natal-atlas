@@ -18,6 +18,7 @@ import {
   stepDate,
   civilLabel,
   clockLabel,
+  civilNowInZone,
   lunarReturnChart,
   jupiterReturnChart,
   saturnReturnChart,
@@ -973,13 +974,14 @@ function wireCast(dom) {
   const presentSky = (lat, lon, tz, place) => {
     try {
       const now = new Date();
+      const civil = civilNowInZone(tz, now);
       const chart = castChart({
         name: "The present sky",
-        year: now.getFullYear(),
-        month: now.getMonth() + 1,
-        day: now.getDate(),
-        hour: now.getHours(),
-        minute: now.getMinutes(),
+        year: civil.year,
+        month: civil.month,
+        day: civil.day,
+        hour: civil.hour,
+        minute: civil.minute,
         timeUnknown: false,
         timeZone: tz,
         lat,

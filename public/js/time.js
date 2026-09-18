@@ -169,6 +169,29 @@ export function clockLabel(date) {
   return `${String(h).padStart(2, "0")}:${m} UTC`;
 }
 
+/** Wall-clock civil fields for `date` as seen inside `timeZone`. */
+export function civilNowInZone(timeZone, date = new Date()) {
+  const zone = timeZone || "UTC";
+  const dtf = new Intl.DateTimeFormat("en-US", {
+    timeZone: zone,
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const parts = {};
+  for (const p of dtf.formatToParts(date)) parts[p.type] = p.value;
+  return {
+    year: Number(parts.year),
+    month: Number(parts.month),
+    day: Number(parts.day),
+    hour: parts.hour === "24" ? 0 : Number(parts.hour),
+    minute: Number(parts.minute),
+  };
+}
+
 function bodyGetter(id) {
   if (id === "moon") return (d) => geoEclipticLon(Body.Moon, d);
   if (id === "sun") return (d) => geoEclipticLon(Body.Sun, d);
