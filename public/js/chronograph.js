@@ -197,21 +197,31 @@ export function progressedPack(chart, target) {
     };
   });
   const natalBodies = natalPool(chart);
+  // One ephemeris day earlier on the progressed clock distinguishes applying vs separating.
+  const atPrev = new Date(at.getTime() - DAY);
+  const prevLongs = {};
+  for (const id of TRANSIT_IDS) prevLongs[id] = lonOf(id, atPrev);
   const hits = [];
   for (const p of planets) {
     for (const n of natalBodies) {
       for (const asp of ASPECTS) {
         if (asp.type === "quincunx") continue;
-        const err = Math.abs(wrap180(p.lon - n.lon - asp.angle));
-        const orb = asp.type === "conjunction" || asp.type === "opposition" || asp.type === "trine" ? 8 : 6;
-        if (err > orb) continue;
+        const signed = wrap180(p.lon - n.lon - asp.angle);
+        const err = Math.abs(signed);
+        const orbLimit = asp.type === "conjunction" || asp.type === "opposition" || asp.type === "trine" ? 8 : 6;
+        if (err > orbLimit) continue;
+        let phase = "exact";
+        if (err >= 0.15) {
+          const signedPrev = wrap180(prevLongs[p.id] - n.lon - asp.angle);
+          phase = err < Math.abs(signedPrev) ? "applying" : "separating";
+        }
         hits.push({
           date: target,
           tId: p.id,
           nId: n.id,
           type: asp.type,
           orb: Math.round(err * 10) / 10,
-          phase: err < 0.15 ? "exact" : "applying",
+          phase,
           station: false,
           kind: "progression",
           soft: asp.soft,
