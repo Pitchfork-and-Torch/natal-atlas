@@ -13,7 +13,7 @@ const data = {
       license: "https://github.com/Pitchfork-and-Torch/natal-atlas/blob/main/LICENSE",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       description: "Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.",
-      image: "https://astrochart.jonbailey.xyz/og.jpg?v=1.1.0",
+      image: "https://astrochart.jonbailey.xyz/og.jpg?v=1.2.8",
       author: { "@type": "Person", name: "Jon Bailey", url: "https://jonbailey.xyz/" },
       isPartOf: { "@type": "WebSite", name: "Jon Bailey", url: "https://jonbailey.xyz/" },
     },

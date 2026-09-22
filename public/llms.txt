@@ -2,7 +2,7 @@
 
 > Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.
 
-- Version: 1.2.0 Chronograph
+- Version: 1.2.8 Chronograph
 - License: MIT
 - Code: https://github.com/Pitchfork-and-Torch/natal-atlas
 - Site: https://astrochart.jonbailey.xyz/
