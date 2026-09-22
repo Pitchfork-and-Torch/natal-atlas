@@ -1,8 +1,8 @@
 Fontshare EULA
 
----—---------------------------------—------------------------------
+--------------------------------------------------------------------
 Free Font - End User License Agreement (FF EULA)
----—---------------------------------—------------------------------
+--------------------------------------------------------------------
 Notice to User
 Indian Type Foundry designs, produces and distributes font software as digital fonts to end users worldwide. In addition to commercial fonts that are available for a fee, ITF also offers several fonts which can be used free of charge. The free fonts are distributed through a dedicated platform called www.fontshare.com (“Fontshare”) to end users worldwide. These free fonts are subject to this legally binding EULA between the Indian Type Foundry (“Indian Type Foundry” or “Licensor”) and you (“Licensee”). 
 You acknowledge that the Font Software and designs embodied therein are protected by the copyright, other intellectual property rights and industrial property rights and by international treaties. They are and remain at all times the intellectual property of the Indian Type Foundry.
