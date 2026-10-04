@@ -1,0 +1,33 @@
+# Natal Atlas
+
+> Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.
+
+- Version: 1.2.8 Chronograph
+- License: MIT
+- Code: https://github.com/Pitchfork-and-Torch/natal-atlas
+- Site: https://astrochart.jonbailey.xyz/
+
+## What it is
+
+A static natal theatre. Name, clock, and a place on Earth. Type a city name to autofill coordinates and timezone (GeoNames index of 15,000+ population cities plus capitals). After a cast, chapter 06 is a chronograph: Hour, Day, Month, Year, Decade winding, exact transit hits, solar/lunar/Jupiter/Saturn returns, and optional secondary progressed ring. The chart is computed on the device with Astronomy Engine (tropical, apparent geocentric). Porphyry houses by default, or a solar chart if time is unknown.
+
+## What it is not
+
+Not a hosted astrology account. Not a guidebook paste. Not an upload service. Vault entries stay in that browser.
+
+## Quick answers
+
+Q: Does birth data leave the device?
+A: No. Cast, vault, and overlays run in the browser.
+
+Q: Which zodiac and houses?
+A: Tropical. Porphyry, whole sign, or equal. Solar chart if time is unknown.
+
+Q: Can two charts share a wheel?
+A: Yes. Vault Outer ring, or Outer: this minute, draws a bi-wheel with synastry.
+
+## Related
+
+Jon Bailey hub: https://jonbailey.xyz/
+
+Last reviewed: 2026-09-22

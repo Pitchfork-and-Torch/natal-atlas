@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Natal Atlas</title>
+  <meta name="description" content="Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.">
+  <link rel="canonical" href="https://astrochart.jonbailey.xyz/">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=1.2.8">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=1.2.8" sizes="180x180">
+  <link rel="apple-touch-icon" href="./icon-512.png?v=1.2.8" sizes="512x512">
+  <link rel="alternate" type="text/plain" href="https://astrochart.jonbailey.xyz/llms.txt">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#171512">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Natal Atlas">
+  <meta property="og:url" content="https://astrochart.jonbailey.xyz/">
+  <meta property="og:title" content="Natal Atlas">
+  <meta property="og:description" content="Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.">
+  <meta property="og:image" content="https://astrochart.jonbailey.xyz/og.jpg?v=1.2.8">
+  <meta property="og:image:secure_url" content="https://astrochart.jonbailey.xyz/og.jpg?v=1.2.8">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Natal Atlas. Cast a nativity in the browser.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@suddenlyjon">
+  <meta name="twitter:creator" content="@suddenlyjon">
+  <meta name="twitter:title" content="Natal Atlas">
+  <meta name="twitter:description" content="Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.">
+  <meta name="twitter:image" content="https://astrochart.jonbailey.xyz/og.jpg?v=1.2.8">
+  <meta name="twitter:image:alt" content="Natal Atlas. Cast a nativity in the browser.">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Natal Atlas","url":"https://astrochart.jonbailey.xyz/","description":"Cast a natal chart in the browser. Tropical wheel, houses, transits, and synastry. Nothing is uploaded.","applicationCategory":"LifestyleApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"softwareVersion":"1.2.8"}</script>
+  <link rel="preload" href="./fonts/fontshare/clash-display/woff2/ClashDisplay-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fontshare/clash-display/woff2/ClashDisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fontshare/satoshi/woff2/Satoshi-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/fontshare/satoshi/woff2/Satoshi-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./fonts/fontshare/fonts.css">
+  <link rel="stylesheet" href="./fonts/fontshare/tokens.css">
+  <link rel="stylesheet" href="./css/atlas.css?v=1.2.8">
+  <script type="module" src="./js/seo.js"></script>
+  <script type="module" src="./js/boot.js?v=1.2.8"></script>
+</head>
+<body class="is-loading is-waiting">
+  <a class="skip" href="#top">Skip to the wheel</a>
+
+  <!-- Atmosphere plate: photo at low opacity under a solid ink scrim. Never carries text. -->
+  <div class="plate" aria-hidden="true">
+    <img class="plate-img" src="./assets/hero-atmosphere.jpg" alt="" decoding="async" fetchpriority="high">
+    <video class="plate-video" id="plate-video" poster="./assets/hero-atmosphere.jpg" muted loop playsinline preload="none"></video>
+    <div class="plate-scrim"></div>
+    <div class="dust"></div>
+  </div>
+
+  <div class="page">
+    <main id="main" class="column">
+
+      <header class="nav" id="nav">
+        <div class="brand-island">
+          <a class="x-follow" href="https://x.com/suddenlyjon" target="_blank" rel="noopener noreferrer" aria-label="Follow @suddenlyjon on X" title="Follow @suddenlyjon on X">
+            <span class="x-follow-mark" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="11" height="11" focusable="false"><path fill="currentColor" d="M12.6.75h2.45l-5.35 6.11L16 15.25h-4.94L7.46 10.1 3.1 15.25H.64l5.72-6.54L0 .75h5.06l3.5 4.63L12.6.75Zm-.86 13.07h1.36L4.34 2.13H2.88l8.86 11.69Z"></path></svg>
+            </span>
+            <span class="x-follow-handle">@suddenlyjon</span>
+          </a>
+          <a class="nav-mark" href="#top">
+            <span class="nav-title">Natal Atlas</span>
+            <span class="nav-kicker mono" data-slot="meta.kicker">Natal atlas</span>
+          </a>
+        </div>
+        <nav class="nav-links" aria-label="Chapters">
+          <a href="#identity"><span class="mono">01</span>Identity</a>
+          <a href="#stellium" hidden><span class="mono">02</span>Cluster</a>
+          <a href="#moon"><span class="mono">03</span>Lights</a>
+          <a href="#vocation"><span class="mono">04</span>Vocation</a>
+          <a href="#patterns"><span class="mono">05</span>Patterns</a>
+          <a href="#transits"><span class="mono">06</span>Now</a>
+        </nav>
+        <div class="nav-end">
+          <div class="house-switch" id="house-switch" hidden role="group" aria-label="House system">
+            <button type="button" data-houses="porphyry" aria-pressed="true">Porphyry</button>
+            <button type="button" data-houses="whole" aria-pressed="false">Whole</button>
+            <button type="button" data-houses="equal" aria-pressed="false">Equal</button>
+          </div>
+          <button type="button" class="nav-ghost" id="open-vault" aria-haspopup="dialog" aria-controls="vault" aria-expanded="false">Vault</button>
+          <button type="button" class="nav-cast" id="open-cast" aria-haspopup="dialog" aria-controls="cast" aria-expanded="false">Cast</button>
+          <details class="nav-menu">
+            <summary class="nav-menu-btn">Menu</summary>
+            <div class="nav-menu-list" role="list">
+              <a href="#identity" role="listitem"><span class="mono">01</span>Identity</a>
+              <a href="#stellium" role="listitem" hidden><span class="mono">02</span>Cluster</a>
+              <a href="#moon" role="listitem"><span class="mono">03</span>Lights</a>
+              <a href="#vocation" role="listitem"><span class="mono">04</span>Vocation</a>
+              <a href="#patterns" role="listitem"><span class="mono">05</span>Patterns</a>
+              <a href="#transits" role="listitem"><span class="mono">06</span>Now</a>
+              <button type="button" class="nav-menu-cast" id="open-cast-menu" role="listitem" aria-haspopup="dialog" aria-controls="cast" aria-expanded="false">Cast a chart</button>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <div class="pin-block">
+      <div class="pin-sticky">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="hero-head">
+            <p class="kicker mono" data-slot="meta.kicker">Natal atlas</p>
+            <h1 class="hero-title" id="hero-title" data-slot="meta.subject">Cast a nativity</h1>
+            <p class="hero-sub" data-slot="hero.sub"></p>
+            <p class="overlay-chip mono" id="overlay-chip" hidden></p>
+            <div class="ring-mode" id="ring-mode" hidden role="group" aria-label="Wheel rings">
+              <button type="button" class="btn btn-ghost btn-small" data-ring="off">Off</button>
+              <button type="button" class="btn btn-ghost btn-small" data-ring="now" aria-pressed="true">This minute</button>
+              <button type="button" class="btn btn-ghost btn-small" data-ring="progressed">Progressed</button>
+              <button type="button" class="btn btn-ghost btn-small" data-ring="vault">Vault chart</button>
+            </div>
+            <div class="hero-tools" id="hero-tools" hidden>
+              <button type="button" class="btn btn-ghost btn-small" id="plate-btn">Plate</button>
+            </div>
+          </div>
+          <div class="solo" role="group" aria-label="Pattern solo">
+            <p class="solo-label mono">Solo <span class="solo-hint">keys 1 to 4, Esc clears</span></p>
+            <div class="solo-buttons" id="solo-buttons"></div>
+          </div>
+        </div>
+
+        <div class="stage-wrap">
+          <div class="stage" id="stage" tabindex="-1">
+            <div class="stage-wash" aria-hidden="true"></div>
+            <canvas class="wheel" id="wheel" role="img" aria-label="Natal wheel. Tap a body to read it. Drag to turn."></canvas>
+            <div class="targets" id="targets"></div>
+            <div class="tip mono" id="tip" hidden></div>
+            <dl class="birth mono" id="birth"></dl>
+          </div>
+          <div class="wheel-turn-row" id="wheel-turn-row">
+            <button type="button" class="wheel-turn" id="wheel-ccw" aria-label="Turn the wheel counter-clockwise">Turn left</button>
+            <p class="wheel-hint mono" id="wheel-hint">Drag the wheel to turn it. Tap a glyph to read it.</p>
+            <button type="button" class="wheel-turn" id="wheel-cw" aria-label="Turn the wheel clockwise">Turn right</button>
+          </div>
+          <p class="await-caption mono" id="await-caption">Awaiting a clock.</p>
+        </div>
+
+        <div class="chrono-hero glass" id="chrono-hero" hidden>
+          <div class="chrono-scales" id="chrono-scales" role="group" aria-label="Time scale"></div>
+          <canvas class="chrono-ring" id="chrono-ring" width="640" height="48" aria-hidden="true"></canvas>
+          <input type="range" id="transit-range" class="chrono-range" min="0" max="1000" value="500" step="1" tabindex="-1" aria-hidden="true">
+          <div class="chrono-read">
+            <button type="button" class="btn btn-ghost chrono-step" id="chrono-minus" aria-label="Step back">−</button>
+            <p class="chrono-date mono" id="chrono-date" aria-live="polite">Sky for today</p>
+            <button type="button" class="btn btn-ghost chrono-step" id="chrono-plus" aria-label="Step forward">+</button>
+            <button type="button" class="btn btn-ghost" id="chrono-play" aria-pressed="false">Play</button>
+          </div>
+        </div>
+
+        <p class="hero-status" id="status" role="status"></p>
+        <noscript><p class="hero-status">This atlas draws the wheel with JavaScript. Enable it, then reload.</p></noscript>
+      </section>
+      </div>
+
+        <section class="chapter chapter-identity reveal" id="identity" aria-labelledby="identity-title">
+          <p class="eyebrow mono"><span>01</span>Identity</p>
+          <div class="identity-grid">
+            <div class="identity-copy">
+              <h2 class="chapter-title" id="identity-title"></h2>
+              <p class="lede" id="identity-lede"></p>
+            </div>
+            <dl class="facts" id="facts"></dl>
+            <figure class="horizon" aria-labelledby="horizon-cap">
+              <svg class="horizon-svg" viewBox="0 0 900 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                <defs>
+                  <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0" stop-color="oklch(0.78 0.12 80)" stop-opacity="0.55"></stop>
+                    <stop offset="0.45" stop-color="oklch(0.78 0.12 80)" stop-opacity="0.14"></stop>
+                    <stop offset="1" stop-color="oklch(0.78 0.12 80)" stop-opacity="0"></stop>
+                  </radialGradient>
+                  <radialGradient id="sun-disc" cx="40%" cy="35%" r="70%">
+                    <stop offset="0" stop-color="oklch(0.9 0.1 88)"></stop>
+                    <stop offset="0.6" stop-color="oklch(0.78 0.12 80)"></stop>
+                    <stop offset="1" stop-color="oklch(0.62 0.14 60)"></stop>
+                  </radialGradient>
+                  <clipPath id="below-horizon"><rect x="0" y="140" width="900" height="100"></rect></clipPath>
+                  <clipPath id="above-horizon"><rect x="0" y="0" width="900" height="140"></rect></clipPath>
+                </defs>
+                <circle id="horizon-glow" cx="180" cy="188" r="120" fill="url(#sun-glow)" clip-path="url(#above-horizon)"></circle>
+                <line x1="0" y1="140" x2="900" y2="140" stroke="oklch(0.93 0.02 85)" stroke-opacity="0.28" stroke-width="1"></line>
+                <g clip-path="url(#below-horizon)">
+                  <circle id="horizon-sun" cx="180" cy="188" r="30" fill="url(#sun-disc)" opacity="0.92"></circle>
+                </g>
+                <line x1="180" y1="140" x2="180" y2="128" stroke="oklch(0.78 0.12 80)" stroke-opacity="0.9" stroke-width="1.5"></line>
+                <text x="180" y="116" text-anchor="middle" font-family="ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace" font-size="12" fill="oklch(0.93 0.02 85)" fill-opacity="0.6" letter-spacing="1">EAST</text>
+                <text x="890" y="130" text-anchor="end" font-family="ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace" font-size="12" fill="oklch(0.93 0.02 85)" fill-opacity="0.45" letter-spacing="1" id="horizon-asc"></text>
+              </svg>
+              <figcaption class="mono" id="horizon-cap"></figcaption>
+            </figure>
+          </div>
+        </section>
+      </div>
+
+      <div id="chapters" class="chapters">
+
+        <section class="chapter chapter-stellium reveal" id="stellium" aria-labelledby="stellium-title" hidden>
+          <p class="eyebrow mono"><span>02</span>Cluster</p>
+          <div class="stellium-head">
+            <h2 class="chapter-title" id="stellium-title" data-slot="pattern.stellium.headline"></h2>
+            <div class="stellium-side">
+              <p class="lede" data-slot="pattern.stellium.body"></p>
+              <button type="button" class="btn" data-solo-jump="stellium">Solo on the wheel <kbd>1</kbd></button>
+            </div>
+          </div>
+          <div class="strip" id="strip" role="group" aria-label="Stellium degrees">
+            <div class="strip-rail">
+              <div class="strip-glow" id="strip-glow" aria-hidden="true"></div>
+              <div class="strip-ticks" id="strip-ticks" aria-hidden="true"></div>
+              <div class="strip-marks" id="strip-marks"></div>
+            </div>
+            <div class="strip-scale mono" id="strip-scale" aria-hidden="true">
+              <span>0&deg;</span><span>10&deg;</span><span>20&deg;</span><span>30&deg;</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter chapter-moon reveal" id="moon" aria-labelledby="moon-title">
+          <p class="eyebrow mono"><span>03</span>Two lights</p>
+          <div class="moon-head">
+            <h2 class="chapter-title" id="moon-title" data-slot="theme.two-lights.title"></h2>
+            <p class="lede" data-slot="theme.two-lights.body"></p>
+          </div>
+          <figure class="element-diamond" id="element-diamond" aria-label="Element mix"></figure>
+          <div class="lights">
+            <article class="light light-sun">
+              <div class="light-disc" aria-hidden="true"></div>
+              <div class="light-text">
+                <p class="light-pos mono" data-slot="body.sun.pos"></p>
+                <h3 class="light-name">Sun</h3>
+                <p class="light-head" data-slot="body.sun.headline"></p>
+                <button type="button" class="btn btn-ghost" data-select="sun">Read the sun</button>
+              </div>
+            </article>
+            <article class="light light-moon">
+              <div class="light-disc" aria-hidden="true"></div>
+              <div class="light-text">
+                <p class="light-pos mono" data-slot="body.moon.pos"></p>
+                <h3 class="light-name">Moon</h3>
+                <p class="light-head" data-slot="body.moon.headline"></p>
+                <button type="button" class="btn btn-ghost" data-select="moon">Read the moon</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="chapter chapter-vocation reveal" id="vocation" aria-labelledby="vocation-title">
+          <p class="eyebrow mono"><span>04</span>Vocation</p>
+          <div class="vocation-grid">
+            <figure class="rail" aria-label="Midheaven sign">
+              <div class="rail-line" id="rail"></div>
+              <figcaption class="mono rail-scale" id="rail-scale" aria-hidden="true"><span>30&deg;</span><span>Sign</span><span>0&deg;</span></figcaption>
+            </figure>
+            <div class="vocation-copy">
+              <h2 class="chapter-title" id="vocation-title" data-slot="theme.vocation.title"></h2>
+              <p class="lede" data-slot="theme.vocation.body"></p>
+              <div class="reading-pair">
+                <article class="mini-reading">
+                  <p class="mini-pos mono" data-slot="body.mc.pos"></p>
+                  <h3 class="mini-head" data-slot="body.mc.headline"></h3>
+                  <p class="mini-body" data-slot="body.mc.body"></p>
+                  <button type="button" class="btn btn-ghost" data-select="mc">Open the midheaven</button>
+                </article>
+                <article class="mini-reading">
+                  <p class="mini-pos mono" data-slot="body.jupiter.pos"></p>
+                  <h3 class="mini-head" data-slot="body.jupiter.headline"></h3>
+                  <p class="mini-body" data-slot="body.jupiter.body"></p>
+                  <button type="button" class="btn btn-ghost" data-select="jupiter">Open Jupiter</button>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter chapter-patterns reveal" id="patterns" aria-labelledby="patterns-title">
+          <p class="eyebrow mono"><span>05</span>Patterns</p>
+          <h2 class="chapter-title" id="patterns-title">Figures in the wheel</h2>
+          <p class="lede" id="patterns-lede">Each figure can be soloed on the hero wheel. Everything outside it dims.</p>
+          <ol class="pattern-list" id="pattern-list"></ol>
+          <div class="aspectarian-plate" id="aspectarian-plate"></div>
+        </section>
+
+        <section class="chapter chapter-transits reveal" id="transits" aria-labelledby="transits-title">
+          <p class="eyebrow mono"><span>06</span>Now</p>
+          <div class="transit-head">
+            <h2 class="chapter-title" id="transits-title">Chronograph</h2>
+            <p class="lede" id="transits-lede">A movement against the natal face. Wind the ring. Outer ticks are the sky on this date. Nothing is uploaded.</p>
+          </div>
+          <div class="time-tools" id="time-tools">
+            <label class="field">
+              <span>Date</span>
+              <input type="date" id="transit-date">
+            </label>
+            <button type="button" class="btn btn-ghost" id="transit-now">This minute</button>
+            <button type="button" class="btn btn-ghost" id="solar-return">Next solar return</button>
+            <button type="button" class="btn btn-ghost" id="lunar-return">Next lunar return</button>
+            <button type="button" class="btn btn-ghost" id="jupiter-return">Next Jupiter return</button>
+            <button type="button" class="btn btn-ghost" id="saturn-return">Next Saturn return</button>
+          </div>
+          <p class="chrono-hit-live sr-only" id="chrono-hit-live" aria-live="polite"></p>
+          <ol class="transit-list" id="transit-list"></ol>
+        </section>
+
+      </div>
+
+      <footer class="colophon">
+        <p data-slot="meta.houseSystem"></p>
+        <p>Tropical, apparent geocentric. Houses Porphyry, or solar if time is unknown. Copy original to this atlas. Computed in the browser. Nothing is uploaded.</p>
+        <h2 class="faq-title" id="faq">Questions</h2>
+        <dl class="faq">
+          <dt>Does birth data leave this device?</dt>
+          <dd>No. Cast, vault, and overlays run in the browser. Nothing is uploaded.</dd>
+          <dt>Which zodiac and houses?</dt>
+          <dd>Tropical apparent geocentric. Porphyry by default, or whole sign or equal. Solar chart if the birth time is unknown.</dd>
+          <dt>Can two charts share a wheel?</dt>
+          <dd>Yes. Save a chart in the Vault and set it as the outer ring. Rings are mutually exclusive: transits, progressed, or vault.</dd>
+          <dt>How do I wind time?</dt>
+          <dd>After a cast, the chronograph under the wheel winds Hour, Day, Month, Year, or Decade. Arrow keys step. Space plays. Nothing is uploaded.</dd>
+        </dl>
+        <p class="mono">Clash Display and Satoshi, Indian Type Foundry via Fontshare. MIT. <a href="https://github.com/Pitchfork-and-Torch/natal-atlas">GitHub</a></p>
+      </footer>
+    </main>
+
+    <aside class="dock" id="dock" aria-label="Inspector">
+      <div class="dock-panel glass">
+        <div class="dock-head">
+          <span class="mono dock-kicker">Inspector</span>
+          <button type="button" class="btn btn-ghost btn-small" id="dock-plate">Plate</button>
+          <button type="button" class="dock-close" id="dock-close" aria-label="Close inspector">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
+          </button>
+        </div>
+        <div class="dock-body" id="dock-body" aria-live="polite"></div>
+      </div>
+    </aside>
+  </div>
+
+  <p class="sr-only" id="announce" aria-live="polite"></p>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="cast" id="cast" hidden>
+    <div class="cast-panel glass" role="dialog" aria-modal="true" aria-labelledby="cast-title">
+      <div class="cast-head">
+        <p class="kicker mono">Instrument</p>
+        <h2 class="cast-title" id="cast-title">Cast a nativity</h2>
+        <button type="button" class="dock-close" id="close-cast" aria-label="Close">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
+        </button>
+      </div>
+      <p class="cast-lead">Name, clock, and a place on Earth. Computed here. Nothing is uploaded.</p>
+      <div class="cast-demos" id="cast-demos"></div>
+      <form class="cast-form" id="cast-form" autocomplete="off">
+        <p class="cast-group-label">Who</p>
+        <label class="field field-full">
+          <span>Name</span>
+          <input name="name" id="cast-name" type="text" maxlength="80" placeholder="Who the chart belongs to" required>
+        </label>
+        <p class="cast-group-label">Clock</p>
+        <label class="field">
+          <span>Year</span>
+          <input name="year" id="cast-year" type="number" min="1800" max="2100" required>
+        </label>
+        <label class="field">
+          <span>Month</span>
+          <select name="month" id="cast-month" required>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Day</span>
+          <input name="day" id="cast-day" type="number" min="1" max="31" required>
+        </label>
+        <label class="field">
+          <span>Hour</span>
+          <input name="hour" id="cast-hour" type="number" min="0" max="23" value="12">
+        </label>
+        <label class="field">
+          <span>Minute</span>
+          <input name="minute" id="cast-minute" type="number" min="0" max="59" value="0">
+        </label>
+        <label class="field field-check">
+          <input name="timeUnknown" id="cast-unknown" type="checkbox">
+          <span>Time unknown (solar chart)</span>
+        </label>
+        <p class="cast-group-label">Place</p>
+        <label class="field field-full">
+          <span class="sr-only">City</span>
+          <input name="placeSearch" id="cast-place" type="text" placeholder="Type a city name" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="place-list" aria-expanded="false">
+        </label>
+        <ul class="place-list" id="place-list" role="listbox" hidden></ul>
+        <input type="hidden" name="place" id="cast-place-full">
+        <input type="hidden" name="timeZone" id="cast-tz">
+        <input type="hidden" name="lat" id="cast-lat">
+        <input type="hidden" name="lon" id="cast-lon">
+        <p class="cast-coords mono" id="cast-coords">Type a city, or open coordinates.</p>
+        <details class="cast-advanced" id="cast-advanced">
+          <summary>Coordinates and house system</summary>
+          <label class="field">
+            <span>Latitude</span>
+            <input name="latVisible" id="cast-lat-vis" type="number" step="0.0001" min="-90" max="90">
+          </label>
+          <label class="field">
+            <span>Longitude</span>
+            <input name="lonVisible" id="cast-lon-vis" type="number" step="0.0001" min="-180" max="180">
+          </label>
+          <label class="field">
+            <span>Timezone</span>
+            <select name="tzVisible" id="cast-tz-vis"></select>
+          </label>
+          <fieldset class="field field-full house-field">
+            <legend>Houses</legend>
+            <label><input type="radio" name="houseSystem" value="porphyry" checked> Porphyry</label>
+            <label><input type="radio" name="houseSystem" value="whole"> Whole sign</label>
+            <label><input type="radio" name="houseSystem" value="equal"> Equal</label>
+          </fieldset>
+        </details>
+        <div class="cast-actions">
+          <button type="submit" class="btn" id="cast-submit">Cast the wheel</button>
+          <button type="button" class="btn btn-ghost" id="cast-now">Sky right now</button>
+          <button type="button" class="btn btn-ghost" id="cast-geo">Use this location</button>
+        </div>
+        <p class="cast-error" id="cast-error" role="alert" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="vault" id="vault" hidden>
+    <div class="vault-panel glass" role="dialog" aria-modal="true" aria-labelledby="vault-title">
+      <div class="cast-head">
+        <p class="kicker mono">Local only</p>
+        <h2 class="cast-title" id="vault-title">Vault</h2>
+        <button type="button" class="dock-close" id="close-vault" aria-label="Close vault">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" fill="none"></path></svg>
+        </button>
+      </div>
+      <p class="cast-lead">Charts you save stay in this browser. Nothing is uploaded. Nothing opens itself.</p>
+      <div class="vault-actions">
+        <button type="button" class="btn" id="vault-save">Save this chart</button>
+        <button type="button" class="btn btn-ghost" id="vault-export">Export JSON</button>
+        <label class="btn btn-ghost vault-import">Import JSON<input type="file" id="vault-import" accept="application/json,.json" hidden></label>
+      </div>
+      <ul class="vault-list" id="vault-list"></ul>
+    </div>
+  </div>
+  <script defer src="https://hits.jonbailey.xyz/c.js" data-site="astrochart"></script>
+</body>
+</html>
+
+
